@@ -1,0 +1,21 @@
+<!--
+ * @Author: liming
+ * @Date: 2021-08-20 04:51:24
+ * @LastEditTime: 2021-11-21 14:58:14
+ * @FilePath: \vue\__proto__.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   <script>
+        var obj={};
+        console.log(obj.__proto__,'================')
+        obj.__proto__ = ['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse']
+        console.log(obj.__proto__,'===================')
+   </script>
+</body>
+</html>
