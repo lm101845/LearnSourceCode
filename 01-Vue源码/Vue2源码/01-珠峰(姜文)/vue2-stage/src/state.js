@@ -4,7 +4,7 @@
  * @LastEditTime: 2022-07-18 22:22:30
  * @FilePath: \vue2-stage\src\state.js
  */
-import {observe} from "./observe/index";
+import {observe} from "./observe";
 
 export function initState(vm) {
     const opts = vm.$options;   //获取所有的选项
@@ -17,6 +17,7 @@ export function initState(vm) {
 function proxy(vm,target,key){
    Object.defineProperty(vm,key,{
        get(){
+           // console.log('proxy函数中get方法调用了')
            return vm[target][key]
        },
        set(newValue){
@@ -30,7 +31,7 @@ function initData(vm) {
     let data = vm.$options.data;  //data Vue2里面可以是函数，也可以是对象
     data = typeof data === 'function' ? data.call(vm) : data
     //data是用户返回的对象
-    console.log(data,'data');
+    // console.log(data,'initData函数中的data');
 
     vm._data = data
     //把对象data放在实例身上,并且把对象进行了观测(给age和name添加了get和set)

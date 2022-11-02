@@ -14,5 +14,8 @@
     "@babel/preset-env": "^7.16.4",
     "rollup": "^2.61.0",
     "rollup-plugin-babel": "^4.4.0"
+  },
+  "dependencies": {
+    "@rollup/plugin-node-resolve": "^15.0.1"
   }
 }

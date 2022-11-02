@@ -8,6 +8,7 @@
 //rollup默认可以导出一个对象，作为打包的配置文件
 //注意：所有的插件都是函数，不管是什么语法,执行它就对了
 import babel from 'rollup-plugin-babel'
+import resolve from '@rollup/plugin-node-resolve'
 export default {
     //打包入口
     input: './src/index.js',
@@ -21,7 +22,8 @@ export default {
     plugins: [
         babel({
             exclude:'node_modules/**'   //排除node_modules下的所有文件,**表示任意文件，任意文件夹
-        })
+        }),
+        resolve()
     ]
 }
 
