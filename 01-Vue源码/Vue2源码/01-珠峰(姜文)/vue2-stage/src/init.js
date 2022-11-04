@@ -50,7 +50,7 @@ export function initMixin(Vue) {
                 const render = compileToFunction(template)
                 ops.render = render  //JSX最终会被编译成h('xxx')
             }
-            console.log(template, 'template')
+            // console.log(template, 'template')
         }
         ops.render //最终就可以获取render方法
 
