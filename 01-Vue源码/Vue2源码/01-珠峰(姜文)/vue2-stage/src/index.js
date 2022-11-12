@@ -20,8 +20,10 @@
 // }
 
 import { initMixin } from "./init"
+import {initLifeCycle} from "./lifecycle";
 
 initMixin(Vue)  //扩展了init方法
+initLifeCycle(Vue);
 
 //options就是用户的选项——拿到options以后，进行Vue的初始化
 function Vue(options) {

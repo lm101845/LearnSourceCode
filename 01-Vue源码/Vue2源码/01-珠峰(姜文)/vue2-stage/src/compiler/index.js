@@ -7,14 +7,17 @@ import {parseHTML} from "./parse";
 const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g
 
 function genProps(attrs) {
+    // console.log(attrs,'attrsxxxxxxx')
     let str = ''   //{name,value}
     for (let i = 0; i < attrs.length; i++) {
         let attr = attrs[i];
         //特殊处理style
         if ("style" === attr.name) {
+            // console.log(attr.value,'=============attr.value')
             //color:red;background:red => {color:'red'}
             let obj = {}
             attr.value.split(';').forEach(item => {  //或者使用qs库
+                // console.log(item,'itemxxxx')
                 let [key, value] = item.split(':');
                 obj[key] = value;
             })
@@ -22,6 +25,7 @@ function genProps(attrs) {
         }
         str += `${attr.name}:${JSON.stringify(attr.value)},`
     }
+    // console.log( `{${str.slice(0, -1)}}`," `{${str.slice(0, -1)}}`")
     return `{${str.slice(0, -1)}}`  //把最后一个逗号给删掉
 }
 
@@ -44,16 +48,16 @@ function gen(node) {
             //split
             while (match = defaultTagRE.exec(text)) {
                 //exec方法用来截取符合正则表达式的字符串
-                console.log(match, '--match')
+                // console.log(match, '--match')
                 let index = match.index   //匹配的位置 {{name}} hello {{name}}
                 if (index > lastIndex) {
                     tokens.push(JSON.stringify(text.slice(lastIndex, index)))
                 }
-                console.log(index, '--index')
+                // console.log(index, '--index')
                 tokens.push(`_s(${match[1].trim()})`)
                 lastIndex = index + match[0].length
             }
-            console.log(tokens, 'tokens')
+            // console.log(tokens, 'tokens')
             if (lastIndex < text.length) {
                 tokens.push(JSON.stringify(text.slice(lastIndex)))
             }
@@ -73,6 +77,7 @@ function codegen(ast) {
     let code = (`_c('${ast.tag}',${ast.attrs.length > 0 ? genProps(ast.attrs) : 'null'}
         ${ast.children.length ? `,${children}` : ''}
         )`)
+    // console.log(code,'=======code')
     return code;
 }
 
@@ -80,12 +85,18 @@ export function compileToFunction(template) {
     //1.将template转换为AST语法树
     let ast = parseHTML(template);
     //2.生成render方法(render方法执行后的返回结果就是虚拟DOM)
-    console.log(ast, '--ast')
+    // console.log(ast, '--ast')
 
     //接下来，我们需要把ast树组装成下面的这种语法
     // render(){
     //     return _c('div',{id:'app'},_c('div',{style:{color:'red'}},_v(_s(name) + 'hello'),
     //         _c('span',undefined,_v(_s(age)))))
     // }
-    console.log(codegen(ast), '---codegen');
+    // console.log(codegen(ast), '---codegen');
+    //模板引擎的实现原理就是  with + new Function
+    let code = codegen(ast)
+    code = `with(this){return ${code}}`
+    let render = new Function(code)  //根据代码生成render函数
+    // console.log(render.toString(),'render')
+    return render;
 }
