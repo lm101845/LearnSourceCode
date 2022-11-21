@@ -15,4 +15,6 @@ yarn-error.log*
 *.history
 react/
 01-课程资料/
+00-Vue2源码/
 00-Vue3源码/
+jquery/
