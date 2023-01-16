@@ -72,7 +72,7 @@ const obj = new Proxy(data, {
     //get函数一共执行了2次，第一次是执行了effect函数，第二次是执行了setTimeout函数
     //这2个函数都修改了obj.text
     get(target, property, receiver) {
-        console.log(target === data, '这里的target就是data吧');
+        // console.log(target === data, '这里的target就是data吧');
         track(target, property)
         return Reflect.get(...arguments)
         //return Reflect.get(...arguments)和return target[key]是等价写法
@@ -157,6 +157,6 @@ effect(
 console.log(activeEffect,'执行副作用函数后此时打印activeEffect')
 
 // 1 秒后修改响应式数据
-setTimeout(() => {
-    obj.text = 'hello Vue3'
-}, 3000)
+// setTimeout(() => {
+//     obj.text = 'hello Vue3'
+// }, 3000)

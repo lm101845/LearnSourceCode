@@ -30,7 +30,7 @@ const obj = new Proxy(data, {
         track(target, p)
         return target[p]
     },
-    set(target, p, value, receiver): boolean {
+    set(target, p, value, receiver){
         target[p] = value
         trigger(target, p) // 把副作用函数取出并执行
         return true
@@ -38,7 +38,7 @@ const obj = new Proxy(data, {
 })
 
 // track函数
-function track(target, key: string | symbol) {
+function track(target, key) {
     if (!activeEffect) return // 没有正在执行的副作用函数 直接返回
     let depsMap = bucket.get(target)
     if (!depsMap) { // 不存在，则创建一个Map
@@ -55,7 +55,7 @@ function track(target, key: string | symbol) {
 }
 
 // trigger函数
-function trigger(target, key: string | symbol) {
+function trigger(target, key) {
     const depsMap = bucket.get(target) // target Map
     if (!depsMap) return;
     const effects = depsMap.get(key) // effectFn Set

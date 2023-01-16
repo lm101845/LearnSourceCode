@@ -1,10 +1,15 @@
+/**
+ * 唉，看不懂，打断点也不行，绕死我了
+ * 2023-01-16
+ */
 const data = {
     foo: true,
     bar: true,
     num: 1
 }
-let activeEffect,
-    effectStack = []
+
+let activeEffect = undefined;
+let effectStack = []
 const bucket = new WeakMap() // 副作用函数的桶 使用WeakMap
 
 function effect(fn) {
@@ -44,7 +49,7 @@ const obj = new Proxy(data, {
     }
 })
 
-// track函数
+// track函数(get)
 function track(target, key) {
     if (!activeEffect) return // 没有正在执行的副作用函数 直接返回
     let depsMap = bucket.get(target)
@@ -61,7 +66,7 @@ function track(target, key) {
     activeEffect.deps.push(deps)
 }
 
-// trigger函数
+// trigger函数(set)
 function trigger(target, key) {
     const depsMap = bucket.get(target) // target Map
     if (!depsMap) return;
@@ -79,10 +84,10 @@ function trigger(target, key) {
 
 effect(() => {
     // document.body.innerHTML = obj.num
-    console.log(obj.num)
+    console.log(obj.num,'函数执行了')
     obj.num++
 })
 
 setTimeout(() => {
     obj.bar = false
-}, 1000)
+}, 3000)
