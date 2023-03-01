@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+     //根目录
+     "rootDir": ".",
+    //严格模式标志
+    "strict": true,
+    //指定类型脚本如何从给定的模块说明符查找文件
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    //JS语言版本
+    "target": "es5",
+    //允许未读取局部变量
+    "noUnusedLocals": false,
+    //允许未读取的参数
+    "noUnusedParameters": false,
+    //允许解析JSON
+    "resolveJsonModule": true,
+    //支持语法迭代
+    "downlevelIteration": true,
+    //允许使用隐式的any类型(这样有助于我们简化TS的复杂度，从而更加专注于逻辑本身)
+    "noImplicitAny": false,
+    //模块化
+    "module": "esnext",
+    //转换为JS时从TS文件中删除所有注释
+    "removeComments": false,
+    //禁用sourceMap
+    "sourceMap": false,
+    "lib": ["esnext","dom"]
+  },
+  //入口
+  "include": [
+    "packages/*/src"
+  ]
+}
