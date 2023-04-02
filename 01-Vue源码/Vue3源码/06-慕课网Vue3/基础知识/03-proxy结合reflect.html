@@ -1,0 +1,40 @@
+<!--
+ * @Author liming
+ * @Date 2023/4/2 21:51
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    const p1 = {
+        lastName:'张',
+        firstName:'三',
+        //在方法前加上get标记
+        get fullName(){
+            console.log(this,'打印this')
+            console.log('触发了张三方法')
+            return this.lastName + this.firstName
+        }
+    }
+    const proxy = new Proxy(p1,{
+        get(target, key, receiver) {
+            console.log('getter行为被触发')
+            // return target[key]
+            return Reflect.get(target,key,receiver)   //通过receiver值改变this指向
+        }
+    })
+
+    console.log(proxy.fullName)  //张三
+    //思考：getter行为应该被触发几次？——应该被触发3次，结果只触发了一次
+    //所以我们使用Reflect.get方法进行替代，就可以触发3次getter行为了
+
+    //总结：当我们期望监听代理对象的getter和setter时，不应该使用target[key],因为它在
+    //某些时刻(比如fullName)下是不可靠的，而应该使用Reflect,借助它的get和set方法，使用receiver(proxy实例)
+    //作为this,以此达到期望的结果(触发三次getter)
+</script>
+</body>
+</html>

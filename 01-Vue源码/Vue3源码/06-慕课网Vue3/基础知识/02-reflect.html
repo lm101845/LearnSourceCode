@@ -1,0 +1,38 @@
+<!--
+ * @Author liming
+ * @Date 2023/4/2 21:33
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    const p1 = {
+        lastName:'张',
+        firstName:'三',
+        //在方法前加上get标记
+        get fullName(){
+            console.log('触发了张三方法')
+            return this.lastName + this.firstName
+        }
+    }
+
+    const p2 = {
+        lastName:'李',
+        firstName:'四',
+        //在方法前加上get标记
+        get fullName(){
+            console.log('触发了李四方法')
+            return this.lastName + this.firstName
+        }
+    }
+
+    console.log(p1.fullName)
+    console.log(Reflect.get(p1,'fullName'))
+    console.log(Reflect.get(p1,'fullName'),p2)  //p2会改变this指向
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!--
+ * @Author liming
+ * @Date 2023/4/2 21:27
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+    //定义一个商品
+    let product = {
+        price: 10,
+        quantity:2
+    }
+
+    //product:被代理对象
+    //proxyProduct:代理对象(只有通过代理对象，才会触发getter和setter，被代理对象不行)
+    const proxyProduct = new Proxy(product,{
+        set(target,key,newVal,receiver){
+            console.log("set函数")
+            console.log(target,'--target',key,'--key',newVal,'--newVal',receiver,'--receiver')
+            target[key] = newVal
+            //触发effect重新计算
+            effect();
+            return true;
+        },
+        get(target,key,receiver){
+            console.log('get函数')
+            console.log(target,'--target',key,'--key',receiver,'--receiver')
+            return target[key]
+        }
+    });
+
+    //total
+    let total = 0;
+
+    //计算total的方法
+    let effect = ()=>{
+        // total = product.price * product.quantity;
+        total = proxyProduct.price * proxyProduct.quantity;
+    }
+
+    effect();
+
+    console.log(`total price is：${total}`)
+</script>
+</body>
+</html>
