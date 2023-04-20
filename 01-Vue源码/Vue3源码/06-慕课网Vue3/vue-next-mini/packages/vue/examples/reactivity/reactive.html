@@ -1,0 +1,42 @@
+<!--
+ * @Author liming
+ * @Date 2023/4/13 14:15
+-->
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Title</title>
+  <script src='../../dist/vue.js'></script>
+</head>
+<body>
+  <div id="app"></div>
+</body>
+
+<script>
+  const {reactive,effect} = Vue
+  // console.log(reactive,'查看reactive是否被正确导入')
+  const obj = reactive({
+    name:'张三'
+  })
+
+  // const obj1 = reactive({
+  //   name:'李四',
+  //   age:30
+  // })
+
+  // console.log(obj.name,'打印obj.name')   //会触发getter
+  //
+  // obj.name = "李四";    //会触发setter
+  // console.log("代码结束--")
+
+
+  effect(()=>{
+    document.querySelector("#app").innerText = obj.name;
+  })
+
+  setTimeout(()=>{
+    obj.name = "李四"
+  },2000)
+</script>
+</html>

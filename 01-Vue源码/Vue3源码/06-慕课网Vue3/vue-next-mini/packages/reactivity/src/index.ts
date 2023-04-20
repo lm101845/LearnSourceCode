@@ -3,8 +3,8 @@
  * @Date 2023/3/1 18:19
  **/
 
-let msg = '测试'
+export {reactive} from './reactive'
 
-const fn = (a) => {
-  console.log(a)
-}
+export {effect} from './effect'
+
+export {ref} from './ref'

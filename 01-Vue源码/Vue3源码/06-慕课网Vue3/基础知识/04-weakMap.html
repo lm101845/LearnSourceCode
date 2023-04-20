@@ -1,0 +1,46 @@
+<!--
+ * @Author liming
+ * @Date 2023/4/13 14:27
+-->
+<!--Set是一种值的集合，其中每个值都是唯一的。Set中的值可以是任何类型的值，包括对象和原始类型。
+Set是一种有序的集合，可以通过迭代器访问它的元素。-->
+
+<!--WeakSet是一种值的集合，其中每个值都是对象。WeakSet是一种无序的集合，
+不能通过迭代器访问它的元素。WeakSet的值是弱引用，当值对象被垃圾回收时，它会自动从集合中删除。-->
+
+<!--总结：-->
+
+<!--Map和WeakMap都是键值对的集合，但WeakMap的键是弱引用，
+当键对象被垃圾回收时，与之关联的值也会被自动删除。-->
+
+<!--Set和WeakSet都是值的集合，但WeakSet的值是弱引用，
+当值对象被垃圾回收时，它会自动从集合中删除。-->
+
+<!--Map和Set是有序的集合，可以通过迭代器访问它们的元素。-->
+
+<!--WeakMap和WeakSet是无序的集合，不能通过迭代器访问它们的元素。-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let obj = {
+        name:'张三'
+    }
+    const map = new Map();
+    map.set(obj,"value");
+    obj = null;  //map是强引用，即使置空，也不会被回收,打印map，里面还有东西
+
+
+    let obj1 = {
+        name:'张三'
+    }
+    const map1 = new WeakMap();
+    map1.set(obj1,"value");
+    obj1 = null;  //WeakMap是强引用，置空了的话，就会被回收，打印map1,里面没有东西了
+</script>
+</body>
+</html>

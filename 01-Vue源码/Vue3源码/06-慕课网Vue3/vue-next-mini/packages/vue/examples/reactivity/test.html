@@ -1,0 +1,27 @@
+<!--
+ * @Author liming
+ * @Date 2023/4/20 15:21
+-->
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Title</title>
+</head>
+<body>
+<script>
+  class RefImpl{
+    get value(){
+      return 'get value'
+    }
+
+    set value(val){
+      console.log('set value')
+    }
+  }
+
+  let refImpl = new RefImpl()
+  console.log(refImpl)
+</script>
+</body>
+</html>

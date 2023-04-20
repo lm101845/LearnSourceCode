@@ -6,7 +6,7 @@ let activeEffect,// 当前被激活的副作用函数
     effectStack = [], // 副作用函数栈
     jobQueue = new Set() // 任务队列,通过Set自动去重相同的副作用函数
 
-const bucket = new WeakMap() // 副作用函数的桶 使用WeakMap
+const bucket = new WeakMap() // 副作用函数的桶 使用WeakMap  key为object
 const p = Promise.resolve() // 使用promise实例将任务添加到微任务队列
 
 let isFlushing = false // 是否正在刷新队列
