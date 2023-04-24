@@ -1,0 +1,30 @@
+<!--
+ * @Author liming
+ * @Date 2023/4/24 16:15
+-->
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Title</title>
+  <script src='../../dist/vue.js'></script>
+</head>
+<body>
+<div id="app"></div>
+</body>
+
+<script>
+  const {ref,effect} = Vue
+  // console.log(reactive,'查看reactive是否被正确导入')
+  const obj = ref("张三")
+
+
+  effect(()=>{
+    document.querySelector("#app").innerText = obj.value;
+  })
+
+  setTimeout(()=>{
+    obj.value = "李四"
+  },2000)
+</script>
+</html>
