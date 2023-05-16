@@ -20,3 +20,7 @@ export const isObject = (val:unknown) =>{
  */
 export const hasChanged = (value:any,oldValue:any):boolean=> !Object.is(value,oldValue)
 //Object.is() 方法判断两个值是否为同一个值。
+
+export const isFunction = (val:unknown):val is Function =>{
+  return typeof val === 'function'
+}

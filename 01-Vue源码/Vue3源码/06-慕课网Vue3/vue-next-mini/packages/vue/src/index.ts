@@ -4,4 +4,4 @@
  **/
 
 // export {reactive} from '@vue/reactivity'
-export {reactive,effect,ref} from '../../reactivity/src'
+export {reactive,effect,ref,computed} from '../../reactivity/src'

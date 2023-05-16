@@ -4,6 +4,7 @@
  **/
 import { createDep, Dep } from './dep'
 import { isArray } from '../../shared/src'
+import { ComputedRefImpl } from './computed'
 
 // type KeyToDepMap = Map<any,ReactiveEffect>;
 type KeyToDepMap = Map<any,Dep>;
@@ -16,7 +17,12 @@ export function effect<T = any>(fn:()=>T){
 
 export let activeEffect:ReactiveEffect | undefined
 
+/**
+ * ReactiveEffect类表示响应式函数，其构造函数接收一个函数参数fn，表示要执行的响应式函数。
+ * 类中定义了一个方法run，用于执行响应式函数，并将当前的ReactiveEffect实例标记为被激活的effect。
+ */
 export class ReactiveEffect<T = any>{
+  computed?:ComputedRefImpl<T>
   constructor(public fn:()=>T) {}
   run(){
     activeEffect = this;   //标记当前是被激活的effect
