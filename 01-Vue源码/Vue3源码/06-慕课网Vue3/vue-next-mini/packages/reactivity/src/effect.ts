@@ -6,16 +6,22 @@ import { createDep, Dep } from './dep'
 import { isArray } from '../../shared/src'
 import { ComputedRefImpl } from './computed'
 
+export type EffectScheduler = (...args:any[])=>any
 // type KeyToDepMap = Map<any,ReactiveEffect>;
 type KeyToDepMap = Map<any,Dep>;
 
 const targetMap = new WeakMap<any,KeyToDepMap>()
+
+//effect形参是一个函数,执行时会调用ReactiveEffect类，将这个函数形参作为参数传递，生成一个对象
 export function effect<T = any>(fn:()=>T){
+  // debugger
   const _effect = new ReactiveEffect(fn)
   _effect.run();
 }
 
 export let activeEffect:ReactiveEffect | undefined
+
+
 
 /**
  * ReactiveEffect类表示响应式函数，其构造函数接收一个函数参数fn，表示要执行的响应式函数。
@@ -23,12 +29,15 @@ export let activeEffect:ReactiveEffect | undefined
  */
 export class ReactiveEffect<T = any>{
   computed?:ComputedRefImpl<T>
-  constructor(public fn:()=>T) {}
+  constructor(public fn:()=>T,public scheduler:EffectScheduler | null = null) {}
   run(){
+    debugger
     activeEffect = this;   //标记当前是被激活的effect
+    console.log(activeEffect,' activeEffect = this--标记当前是被激活的effect')
     return this.fn();
   }
 }
+
 //收集依赖
 export function track(target:object,key:unknown){
   console.log('收集依赖')
@@ -75,8 +84,21 @@ export function trigger(target:object,key:unknown,newValue:unknown){
 export function triggerEffects(dep:Dep){
   const effects = isArray(dep) ? dep : [...dep];
   //依次触发依赖
-  for(const effect of effects){
-    triggerEffect(effect)
+  // for(const effect of effects){
+  //   triggerEffect(effect)
+  // }
+
+  //解决死循环问题，2次for循环
+  for (const effect of effects) {
+    if (effect.computed) {
+      triggerEffect(effect)
+    }
+  }
+
+  for (const effect of effects) {
+    if (!effect.computed) {
+      triggerEffect(effect)
+    }
   }
 }
 
@@ -85,5 +107,9 @@ export function triggerEffects(dep:Dep){
  * @param effect
  */
 export function triggerEffect(effect:ReactiveEffect){
-  effect.run()
+  if(effect.scheduler){
+    effect.scheduler()
+  }else {
+    effect.run()
+  }
 }
