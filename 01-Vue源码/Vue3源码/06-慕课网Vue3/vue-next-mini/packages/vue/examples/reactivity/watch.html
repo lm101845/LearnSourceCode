@@ -1,0 +1,35 @@
+<!--
+ * @Author liming
+ * @Date 2023/7/7 16:34
+-->
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Title</title>
+  <script src='../../dist/vue.js'></script>
+</head>
+<body>
+
+</body>
+
+<script>
+  const {reactive,watch} = Vue
+  const obj = reactive({
+    count: 1
+  })
+
+  watch(obj,(value,oldValue)=>{
+    console.log('watch监听被触发11111')
+    console.log('oldValue',oldValue)
+    console.log('value',value)
+  },{
+    immediate: true
+  })
+
+  setTimeout(()=>{
+    obj.name = '李四'
+  },2000)
+</script>
+</html>
+

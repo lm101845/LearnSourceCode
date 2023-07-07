@@ -3,7 +3,7 @@
  * @Date 2023/4/13 15:31
  **/
 import { createDep, Dep } from './dep'
-import { isArray } from '../../shared/src'
+import { extend, isArray } from '../../shared/src'
 import { ComputedRefImpl } from './computed'
 
 export type EffectScheduler = (...args:any[])=>any
@@ -12,11 +12,21 @@ type KeyToDepMap = Map<any,Dep>;
 
 const targetMap = new WeakMap<any,KeyToDepMap>()
 
+export interface ReactiveEffectOptions{
+  lazy?:boolean
+  scheduler?:EffectScheduler
+}
+
 //effect形参是一个函数,执行时会调用ReactiveEffect类，将这个函数形参作为参数传递，生成一个对象
-export function effect<T = any>(fn:()=>T){
+export function effect<T = any>(fn:()=>T,options?:ReactiveEffectOptions){
   // debugger
   const _effect = new ReactiveEffect(fn)
-  _effect.run();
+  if(options){
+    extend(_effect,options)  //合并
+  }
+  if(!options || !options.lazy){
+    _effect.run();
+  }
 }
 
 export let activeEffect:ReactiveEffect | undefined
@@ -31,16 +41,18 @@ export class ReactiveEffect<T = any>{
   computed?:ComputedRefImpl<T>
   constructor(public fn:()=>T,public scheduler:EffectScheduler | null = null) {}
   run(){
-    debugger
+    // debugger
     activeEffect = this;   //标记当前是被激活的effect
-    console.log(activeEffect,' activeEffect = this--标记当前是被激活的effect')
+    // console.log(activeEffect,' activeEffect = this--标记当前是被激活的effect')
     return this.fn();
   }
+
+  stop(){}
 }
 
 //收集依赖
 export function track(target:object,key:unknown){
-  console.log('收集依赖')
+  // console.log('收集依赖')
   if(!activeEffect) return;
   let depsMap = targetMap.get(target)
   if(!depsMap){
@@ -52,7 +64,7 @@ export function track(target:object,key:unknown){
     depsMap.set(key,(dep = createDep()))
   }
   trackEffects(dep)
-  console.log(targetMap,'打印收集到的targetMap')
+  // console.log(targetMap,'打印收集到的targetMap')
 }
 
 /**
@@ -63,7 +75,7 @@ export function trackEffects(dep:Dep){
 }
 //触发依赖
 export function trigger(target:object,key:unknown,newValue:unknown){
-  console.log('触发依赖')
+  // console.log('触发依赖')
   const depsMap = targetMap.get(target)
   if(!depsMap) return;
   // const effect = depsMap.get(key) as ReactiveEffect;
