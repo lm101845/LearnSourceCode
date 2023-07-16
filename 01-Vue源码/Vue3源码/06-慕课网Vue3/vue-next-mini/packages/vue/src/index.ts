@@ -5,4 +5,4 @@
 
 // export {reactive} from '@vue/reactivity'
 export {reactive,effect,ref,computed} from '../../reactivity/src'
-export {queuePreFlushCb,watch} from '../../runtime-core/src'
+export {queuePreFlushCb,watch,h} from '../../runtime-core/src'

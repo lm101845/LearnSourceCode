@@ -1,0 +1,27 @@
+<!--
+ * @Author liming
+ * @Date 2023/7/16 17:42
+-->
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Title</title>
+  <script src='../../dist/vue.js'></script>
+</head>
+<body>
+<div id="app"></div>
+</body>
+
+<script>
+  const {h} = Vue
+  const vnode = h('div',{
+    class:'test'
+  },[
+    h('p','p1'),
+    h('p','p2'),
+    h('p','p3')
+  ])
+  console.log(vnode)
+</script>
+</html>
